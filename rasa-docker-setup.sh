@@ -35,7 +35,7 @@ docker run --rm \
   -v "$(pwd)/data:/app/data" \
   -w /app \
   rasa/rasa:3.6.13-full \
-  rasa train --domain domain.yml --data data/ --config config.yml
+  train --domain domain.yml --data data/ --config config.yml
 
 if [ $? -eq 0 ]; then
     echo "✅ Модель успешно обучена!"

@@ -14,7 +14,7 @@ services:
     restart: unless-stopped
     # Just run the server - we'll train manually
     command: [
-      "rasa", "run", 
+      "run", 
       "--enable-api", 
       "--cors", "*", 
       "--debug", 
