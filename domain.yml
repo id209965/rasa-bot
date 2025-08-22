@@ -1,0 +1,276 @@
+version: "3.1"
+
+intents:
+  - greet
+  - start
+  - provide_phone
+  - provide_name
+  - provide_lastname
+  - provide_gender
+  - provide_age
+  - provide_region
+  - provide_interests
+  - skip_step
+  - show_profile
+  - show_events
+  - show_communication
+  - help
+  - affirm
+  - deny
+  - back_to_menu
+  - edit_profile
+  - create_event
+  # --- ДОБАВЛЕННЫЕ НАМЕРЕНИЯ ---
+  - provide_event_title
+  - provide_event_date
+  - provide_event_time
+  - provide_event_location
+  - provide_event_description
+  - provide_event_interests
+  - save_event
+  - cancel_event
+  - admin_upload_lists
+  - admin_generate_users_report
+  - admin_generate_events_report
+
+entities:
+  - phone_number
+  - name
+  - lastname
+  - gender
+  - age
+  - region
+  - interest
+  - event_title
+  - event_date
+  - event_time
+  - event_location
+  - event_description
+
+slots:
+  phone_number:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: phone_number
+  name:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: name
+  lastname:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: lastname
+  gender:
+    type: categorical
+    values:
+      - male
+      - female
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: gender
+  age:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: age
+  region:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: region
+  interests:
+    type: list
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: interest
+  user_id:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+  is_registered:
+    type: bool
+    influence_conversation: true
+    mappings:
+      - type: custom
+  registration_step:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: custom
+  # --- ДОБАВЛЕННЫЕ СЛОТЫ ---
+  is_admin:
+    type: bool
+    influence_conversation: true
+    mappings:
+      - type: custom
+  event_title:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: event_title
+  event_date:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: event_date
+  event_time:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: event_time
+  event_location:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: event_location
+  event_description:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: event_description
+  event_interests:
+    type: list
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: interest
+
+forms:
+  registration_form:
+    required_slots:
+      - name
+      - lastname
+      - gender
+      - age
+      - region
+      - interests
+  # --- ДОБАВЛЕННАЯ ФОРМА ---
+  create_event_form:
+    required_slots:
+      - event_title
+      - event_date
+      - event_time
+      - event_location
+      - event_interests
+
+responses:
+  utter_greet:
+    - text: "Привет! Я бот для организации мероприятий. Чтобы начать, нажмите кнопку 'Запустить'."
+      buttons:
+        - title: "Запустить"
+          payload: "/start"
+  utter_ask_phone:
+    - text: "Пожалуйста, предоставьте номер телефона (например, +79991234567 или 89991234567)"
+  utter_ask_name:
+    - text: "Введите ваше имя (только буквы)"
+  utter_ask_lastname:
+    - text: "Введите вашу фамилию (только буквы)"
+  utter_ask_gender:
+    - text: "Укажите пол"
+      buttons:
+        - title: "Муж"
+          payload: '/provide_gender{"gender":"male"}'
+        - title: "Жен"
+          payload: '/provide_gender{"gender":"female"}'
+        - title: "Пропустить"
+          payload: "/skip_step"
+  utter_ask_age:
+    - text: "Укажите ваш возраст (число от 1 до 120)"
+  utter_ask_region:
+    - text: "Укажите ваш регион (например, Москва)"
+  utter_ask_interests:
+    - text: "Укажите ваши интересы через запятую (например, спорт, музыка)"
+  utter_main_menu:
+    - text: "Главное меню:"
+      buttons:
+        - title: "👤 Мой профиль"
+          payload: "/show_profile"
+        - title: "💬 Общение"
+          payload: "/show_communication"
+        - title: "🎭 Мероприятия"
+          payload: "/show_events"
+        - title: "❓ Помощь"
+          payload: "/help"
+  utter_profile:
+    - text: "Ваш профиль:\n{name} {lastname}\nВозраст: {age}\nПол: {gender}\nРегион: {region}\nИнтересы: {interests}"
+      buttons:
+        - title: "Редактировать данные"
+          payload: "/edit_profile"
+        - title: "Назад"
+          payload: "/back_to_menu"
+  utter_help:
+    - text: "Это бот для организации мероприятий. Вы можете создавать свои мероприятия, приглашать друзей, общаться с участниками и многое другое."
+  utter_edit_profile:
+    - text: "Давайте отредактируем ваш профиль. С чего начнем?"
+      buttons:
+        - title: "Изменить имя"
+          payload: "/provide_name"
+        - title: "Назад"
+          payload: "/back_to_menu"
+  # --- ДОБАВЛЕННЫЕ ОТВЕТЫ ---
+  utter_admin_menu:
+    - text: "Меню администратора:"
+      buttons:
+        - title: "Загрузить списки"
+          payload: "/admin_upload_lists"
+        - title: "Отчет по пользователям"
+          payload: "/admin_generate_users_report"
+        - title: "Отчет по мероприятиям"
+          payload: "/admin_generate_events_report"
+        - title: "Назад"
+          payload: "/back_to_menu"
+  utter_ask_event_title:
+    - text: "Введите название мероприятия"
+  utter_ask_event_date:
+    - text: "Введите дату начала мероприятия (в формате дд.мм.гггг)"
+  utter_ask_event_time:
+    - text: "Введите время начала мероприятия (в формате чч:мм)"
+  utter_ask_event_location:
+    - text: "Введите адрес места проведения мероприятия"
+  utter_ask_event_interests:
+    - text: "Укажите интересы, соответствующие мероприятию (через запятую)"
+  utter_ask_save_event:
+    - text: "Мероприятие готово. Сохранить?"
+      buttons:
+        - title: "Сохранить"
+          payload: "/save_event"
+        - title: "Отмена"
+          payload: "/cancel_event"
+
+actions:
+  - action_process_phone
+  - action_validate_registration_input
+  - action_save_user
+  - action_show_events
+  - action_show_profile
+  - action_show_communication
+  - action_create_event
+  - action_edit_profile
+  # --- ДОБАВЛЕННЫЕ ДЕЙСТВИЯ ---
+  - action_check_admin
+  - action_save_event
+  - action_cancel_event
+  - action_admin_upload_lists
+  - action_admin_generate_users_report
+  - action_admin_generate_events_report
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+

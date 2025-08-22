@@ -1,0 +1,115 @@
+version: "3.1"
+
+nlu:
+# --- ДОБАВЛЕНЫ ПРИМЕРЫ ---
+- intent: greet
+  examples: |
+    - привет
+    - добрый день
+    - здравствуйте
+    - хай
+- intent: start
+  examples: |
+    - старт
+    - запустить
+    - начать
+    - поехали
+# --- ОСТАЛЬНОЕ БЕЗ ИЗМЕНЕНИЙ ---
+- intent: provide_phone
+  examples: |
+    - мой номер [+79991234567](phone_number)
+    - вот мой телефон [89991234567](phone_number)
+    - предоставить номер
+    - [79991234567](phone_number)
+    - [+7 999 123 45 67](phone_number)
+    - [8 (999) 123-45-67](phone_number)
+- intent: provide_name
+  examples: |
+    - меня зовут [Иван](name)
+    - [Мария](name)
+    - моё имя [Александр](name)
+    - [Анна](name)
+- intent: provide_lastname
+  examples: |
+    - моя фамилия [Иванов](lastname)
+    - [Петрова](lastname)
+- intent: provide_gender
+  examples: |
+    - [мужской](gender)
+    - [женский](gender)
+    - я [муж](gender)
+    - [жен](gender)
+- intent: provide_age
+  examples: |
+    - мне [25](age) лет
+    - [30](age)
+- intent: provide_region
+  examples: |
+    - я из [Москвы](region)
+    - [Санкт-Петербург](region)
+- intent: provide_interests
+  examples: |
+    - интересуюсь [спортом](interest)
+    - люблю [музыку](interest)
+    - мои интересы [программирование](interest) и [кино](interest)
+    - [путешествия](interest), [фотография](interest)
+- intent: skip_step
+  examples: |
+    - пропустить
+    - далее
+- intent: show_profile
+  examples: |
+    - мой профиль
+    - показать мой профиль
+- intent: show_events
+  examples: |
+    - мероприятия
+    - показать мероприятия
+- intent: show_communication
+  examples: |
+    - общение
+    - чат
+- intent: help
+  examples: |
+    - помощь
+    - что ты умеешь
+- intent: affirm
+  examples: |
+    - да
+    - конечно
+    - согласен
+- intent: deny
+  examples: |
+    - нет
+    - отмена
+- intent: back_to_menu
+  examples: |
+    - назад
+    - главное меню
+- intent: edit_profile
+  examples: |
+    - редактировать профиль
+    - изменить данные
+- intent: create_event
+  examples: |
+    - создать мероприятие
+    - новое событие
+# --- ДОБАВЛЕНЫ ПРИМЕРЫ ДЛЯ НОВЫХ НАМЕРЕНИЙ ---
+- intent: save_event
+  examples: |
+    - сохранить
+    - да, сохранить
+- intent: cancel_event
+  examples: |
+    - отменить создание
+    - нет, не сохранять
+- intent: admin_upload_lists
+  examples: |
+    - загрузить списки
+- intent: admin_generate_users_report
+  examples: |
+    - отчет по пользователям
+- intent: admin_generate_events_report
+  examples: |
+    - отчет по мероприятиям
+

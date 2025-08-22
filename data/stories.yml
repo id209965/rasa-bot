@@ -1,0 +1,75 @@
+version: "3.1"
+
+stories:
+- story: happy path registration
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: start
+  - action: utter_ask_phone
+  - intent: provide_phone
+  - action: action_process_phone
+  - slot_was_set:
+    - is_registered: false
+  - action: registration_form
+  - active_loop: registration_form
+  - action: action_save_user
+  - action: action_check_admin # Проверяем, не админ ли новый юзер
+  - action: utter_main_menu # Для не-админа
+
+- story: happy path already registered
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: start
+  - action: utter_ask_phone
+  - intent: provide_phone
+  - action: action_process_phone
+  - slot_was_set:
+    - is_registered: true
+  - action: action_check_admin # Проверяем роль существующего юзера
+  - action: utter_main_menu # Для не-админа
+
+- story: show profile
+  steps:
+  - intent: show_profile
+  - action: action_show_profile
+
+- story: show events
+  steps:
+  - intent: show_events
+  - action: action_show_events
+
+- story: show communication
+  steps:
+  - intent: show_communication
+  - action: action_show_communication
+
+- story: help
+  steps:
+  - intent: help
+  - action: utter_help
+
+- story: create event path
+  steps:
+  - intent: create_event
+  - action: create_event_form
+  - active_loop: create_event_form
+  - action: utter_ask_save_event
+  - intent: save_event
+  - action: action_save_event
+  - action: utter_main_menu
+
+- story: edit profile
+  steps:
+  - intent: edit_profile
+  - action: utter_edit_profile
+
+# Истории для админа (можно добавить больше)
+- story: admin generates reports
+  steps:
+  - intent: admin_generate_users_report
+  - action: action_admin_generate_users_report
+  - intent: admin_generate_events_report
+  - action: action_admin_generate_events_report
+

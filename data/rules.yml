@@ -1,0 +1,85 @@
+version: "3.1"
+
+rules:
+# Правило для активации формы регистрации
+- rule: Activate registration form
+  steps:
+  - intent: provide_phone
+  - action: action_process_phone
+  - slot_was_set:
+      - is_registered: false
+  - action: registration_form
+  - active_loop: registration_form
+
+# Правило для завершения формы регистрации
+- rule: Submit registration form
+  condition:
+  - active_loop: registration_form
+  steps:
+  - action: registration_form
+  - active_loop: null
+  - action: action_save_user
+  - action: action_check_admin
+
+# --- РЕШЕНИЕ КОНФЛИКТОВ ---
+# Правила для навигации после проверки роли
+- rule: Show admin menu if user is admin
+  condition:
+  - slot_was_set:
+      - is_admin: true
+  steps:
+  - action: action_check_admin
+  - action: utter_admin_menu
+
+- rule: Show main menu if user is not admin
+  condition:
+  - slot_was_set:
+      - is_admin: false
+  steps:
+  - action: action_check_admin
+  - action: utter_main_menu
+
+# Правила для кнопки "Назад"
+- rule: Go back to admin menu
+  condition:
+  - slot_was_set:
+      - is_admin: true
+  steps:
+  - intent: back_to_menu
+  - action: utter_admin_menu
+
+- rule: Go back to main menu
+  condition:
+  - slot_was_set:
+      - is_admin: false
+  steps:
+  - intent: back_to_menu
+  - action: utter_main_menu
+
+# Правила для создания события
+- rule: Activate create event form
+  steps:
+  - intent: create_event
+  - action: create_event_form
+  - active_loop: create_event_form
+
+- rule: Submit create event form
+  condition:
+  - active_loop: create_event_form
+  steps:
+  - action: create_event_form
+  - active_loop: null
+  - action: utter_ask_save_event
+
+- rule: Save event after form
+  steps:
+  - intent: save_event
+  - action: action_save_event
+  - action: utter_main_menu # Или utter_admin_menu, если нужно
+
+- rule: Cancel event after form
+  steps:
+  - intent: cancel_event
+  - action: action_cancel_event
+  - action: utter_main_menu # Или utter_admin_menu
+
