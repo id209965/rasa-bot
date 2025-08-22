@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app/static:/app/app/static
+      - ./data:/app/data
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - DATABASE_URL=sqlite+aiosqlite:///./data/test_bot.db
+      - API_SECRET_KEY=${API_SECRET_KEY}
+      - YANDEX_MAPS_API_KEY=${YANDEX_MAPS_API_KEY}
+      - ADMIN_PHONES=${ADMIN_PHONES}
+      - RASA_SERVER_URL=http://rasa:5005
+    depends_on:
+      - rasa
+    restart: unless-stopped
+
+  rasa:
+    image: rasa/rasa:3.6.13
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./app/rasa:/app
+    command: >
+      bash -c "rasa train --domain domain.yml --data data/ --config config.yml &&
+               rasa run --enable-api --cors '*' --debug --endpoints endpoints.yml"
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: test_bot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
