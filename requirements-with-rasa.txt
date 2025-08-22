@@ -1,36 +1,42 @@
-# WORKING requirements WITH Rasa - may take longer to install
-# This version uses older package versions that are compatible with Rasa
+# EXPERIMENTAL: Requirements WITH Rasa - VERY DIFFICULT TO INSTALL
+# WARNING: This may not work due to fundamental conflicts between Rasa and modern packages
+# Rasa requires pydantic v1.x, but aiogram 3.x requires pydantic v2.x
 
-# Rasa first (it has the most restrictive requirements)
+# The fundamental conflict:
+# - rasa 3.6.13 needs pydantic < 2.0.0
+# - aiogram 3.2.0 needs pydantic >= 2.4.1
+# - fastapi 0.104.1 needs pydantic >= 1.7.4, != 2.0.0, != 2.0.1, != 2.1.0
+
+# SOLUTION: Use much older versions (may break functionality)
+
+# Rasa (requires old pydantic)
 rasa==3.6.13
 rasa-sdk==3.6.2
 
-# Core web framework and bot (versions compatible with Rasa)
-fastapi==0.95.2
-aiogram==3.2.0
-uvicorn[standard]==0.22.0
+# Use OLDER versions of everything else
+fastapi==0.68.0
+aiogram==2.25.1  # DOWNGRADE to aiogram v2!
+uvicorn[standard]==0.15.0
 
-# Database and ORM (Rasa compatible versions)
+# Database (compatible with Rasa)
 sqlalchemy==1.4.53
-alembic==1.12.1
+alembic==1.8.1
 
-# Database drivers
-aiosqlite==0.19.0
+# File and HTTP handling (older versions)
+aiosqlite==0.17.0
 psycopg2-binary==2.9.9
-
-# File processing (Rasa compatible)
-openpyxl==3.1.2
-Pillow==10.0.1
-python-multipart==0.0.6
-aiofiles==23.1.0
-
-# HTTP client and utilities (Rasa compatible)
+openpyxl==3.0.10
+Pillow==9.5.0
+python-multipart==0.0.5
+aiofiles==0.8.0
 httpx==0.24.1
-pydantic==1.10.12  # Rasa requires pydantic v1.x
-python-dotenv==1.0.0
 
-# Logging
-loguru==0.7.2
+# The key: old pydantic that Rasa needs
+pydantic==1.10.12
+python-dotenv==0.19.0
+loguru==0.6.0
+gunicorn==20.1.0
 
-# Web server
-gunicorn==21.2.0
+# IMPORTANT: This uses aiogram v2, not v3!
+# The bot code will need major changes to work with this setup
+# For 99% of users: just use requirements.txt (without Rasa)
