@@ -1,0 +1,36 @@
+# WORKING requirements WITH Rasa - may take longer to install
+# This version uses older package versions that are compatible with Rasa
+
+# Rasa first (it has the most restrictive requirements)
+rasa==3.6.13
+rasa-sdk==3.6.2
+
+# Core web framework and bot (versions compatible with Rasa)
+fastapi==0.95.2
+aiogram==3.2.0
+uvicorn[standard]==0.22.0
+
+# Database and ORM (Rasa compatible versions)
+sqlalchemy==1.4.53
+alembic==1.12.1
+
+# Database drivers
+aiosqlite==0.19.0
+psycopg2-binary==2.9.9
+
+# File processing (Rasa compatible)
+openpyxl==3.1.2
+Pillow==10.0.1
+python-multipart==0.0.6
+aiofiles==23.1.0
+
+# HTTP client and utilities (Rasa compatible)
+httpx==0.24.1
+pydantic==1.10.12  # Rasa requires pydantic v1.x
+python-dotenv==1.0.0
+
+# Logging
+loguru==0.7.2
+
+# Web server
+gunicorn==21.2.0

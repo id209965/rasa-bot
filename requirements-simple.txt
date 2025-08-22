@@ -1,0 +1,11 @@
+# ULTRA SIMPLE requirements - only essential packages
+# Use this if everything else fails
+
+fastapi
+aiogram>=3.0.0
+sqlalchemy>=2.0.0
+aiosqlite
+uvicorn[standard]
+python-multipart
+python-dotenv
+loguru
