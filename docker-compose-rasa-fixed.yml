@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  rasa:
+    image: rasa/rasa:3.6.13-full
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./app/rasa:/app
+      - ./data:/app/data
+    working_dir: /app
+    environment:
+      - RASA_TELEMETRY_ENABLED=false
+    restart: unless-stopped
+    # Just run the server - we'll train manually
+    command: [
+      "rasa", "run", 
+      "--enable-api", 
+      "--cors", "*", 
+      "--debug", 
+      "--port", "5005",
+      "--model", "/app/models"
+    ]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5005/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
