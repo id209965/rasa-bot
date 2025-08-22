@@ -1,0 +1,39 @@
+# Production requirements (minimal, security-focused)
+
+# Core web framework and bot
+fastapi==0.104.1
+aiogram==3.2.0
+uvicorn[standard]==0.24.0
+gunicorn==21.2.0
+
+# Database and ORM
+sqlalchemy==2.0.23
+alembic==1.13.1
+
+# Database drivers (choose based on your setup)
+aiosqlite==0.19.0
+# asyncpg==0.29.0  # Uncomment for PostgreSQL
+# psycopg2-binary==2.9.9  # Uncomment for PostgreSQL
+
+# Rasa NLP framework
+rasa==3.6.13
+rasa-sdk==3.6.2
+
+# File processing (minimal set)
+openpyxl==3.1.2
+Pillow==10.1.0
+python-multipart==0.0.6
+aiofiles==23.2.1
+
+# HTTP client and utilities
+httpx==0.25.2
+pydantic==2.5.0
+pydantic-settings==2.1.0
+python-dotenv==1.0.0
+
+# Logging and monitoring
+loguru==0.7.2
+
+# Security and performance
+sentry-sdk[fastapi]==1.38.0
+prometheus-client==0.19.0
